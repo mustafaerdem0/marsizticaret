@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block site-include %}
+  {% include "partials/_navbar4.html" %}
+{% endblock site-include %}
+{% block style-link %}
+<link rel="stylesheet" href="{% static 'css/login-register.css' %}">
+
+
+
+
+{% endblock style-link %}
+
+{% block site-content %}
+
+<div class="d-flex justify-content-center pt-5 pb-5">
+
+    <div class="login-register-container" id="container">
+      <div class="form-container sign-up-container">
+          <form action="{% url 'user_register' %}" id="contact-form" class="main-form needs-validation" method="post" role="form" novalidate>
+            {% csrf_token %}
+              <h3>Hesap Oluştur</h3>
+              <div class="form-group">
+                  <label>
+                      <input type="text" name="username" id="form_user" class="my_form-control" required>
+                      <small class="my_place">Kullanıcı Adı</small>
+                      <div class="invalid-feedback">Lütfen bu alanı doldurunuz.</div>
+                  </label>
+              </div> 
+    
+              <div class="form-group">
+                  <label>
+                      <input type="email" name="email" id="form_email" class="my_form-control" required>
+                      <small class="my_place" >Email</small>
+                      <div class="invalid-feedback">Lütfen bu alanı doldurunuz.</div>
+                  </label>
+              </div>   
+    
+              <div class="form-group">
+                  <label>
+                      <input type="password" name="password" id="form_password" class="my_form-control" required>
+                      <small class="my_place">Şifreniz</small>
+                      <div class="invalid-feedback">Lütfen bu alanı doldurunuz.</div>
+    
+                  </label>
+              </div>  
+    
+              <div class="form-group text-center">
+                  <button type="submit" class="btn btn-primary mt-2 mx-auto" >HESAP OLUŞTUR</button>
+              </div>
+   
+                    
+    
+          </form>
+    
+    
+    
+    
+      </div>
+    
+      <div class="form-container sign-in-container">
+    
+          <form action="{% url 'user_login' %}"  method="post" id="contact-form" class="main-form needs-validation" role="form" novalidate>
+            {% csrf_token %}
+              <h3>Giriş Yap</h3>
+      
+    
+              <div class="form-group">
+                  <label>
+                      <input type="text" name="username" id="form_email" class="my_form-control" required>
+                      <small class="my_place">username</small>
+                      <div class="invalid-feedback">Lütfen bu alanı doldurunuz.</div>
+                  </label>
+              </div>   
+    
+              <div class="form-group">
+                  <label>
+                      <input type="password" name="password"id="form_password" class="my_form-control" required>
+                      <small class="my_place">Şifreniz</small>
+                      <div class="invalid-feedback">Lütfen bu alanı doldurunuz.</div>
+    
+                  </label>
+              </div>  
+    
+              <div class="form-group text-center">
+                  <button type="submit" class="btn btn-primary mt-2 mx-auto" >Giriş Yap</button>
+              </div>
+    
+              <div class="form-group mt-2 text-center">
+                  <span class="forgot">Şifrenizimi Unuttunuz ?</span>
+              </div>
+              {% for message in messages  %}
+              {% if 'register' in message.tags %}
+          <h4>    {{message}}</h4>
+              {% endif %}
+         
+          {% endfor %}
+          </form>
+    
+      </div>
+    
+    
+      <div class="overlay-container">
+          <div class="overlay">
+              <div class="overlay-panel overlay-left">
+                  <h1>Hoşgeldiniz</h1>
+                  <p>Sağ tarafınızdan kayıt olabilir. <br>
+                    Hesabınız varsa butona tıklayıp giriş yapabilirsiniz.
+                  </p>
+               
+                  <button class="ghost" id="signIn"> Giriş yap</button>
+                
+              </div>
+              <div class="overlay-panel overlay-right">
+                  <h1>Hoşgeldiniz</h1>
+                  <p>Sol tarafınızdan giriş yapabilir.<br>Hesabınız yoksa butona tıklayarak hesap oluşturabilirsiniz
+                     </p>
+                  <button class="ghost" id="signUp">Hesap Oluştur</button>
+              </div>
+          </div>
+      </div>
+    
+    </div>
+
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha512-I5TkutApDjnWuX+smLIPZNhw+LhTd8WrQhdCKsxCFRSvhFx2km8ZfEpNIhF9nq04msHhOkE8BMOBj5QE07yhMA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+   (function() {
+          'use strict';
+          window.addEventListener('load', function() {
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.getElementsByClassName('needs-validation');
+            // Loop over them and prevent submission
+            var validation = Array.prototype.filter.call(forms, function(form) {
+              form.addEventListener('submit', function(event) {
+                if (form.checkValidity() === false) {
+                  event.preventDefault();
+                  event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+              }, false);
+            });
+          }, false);
+        })();
+
+
+        const signUpButton = document.getElementById('signUp');
+        const signInButton = document.getElementById('signIn');
+        const container = document.getElementById('container');
+
+        signUpButton.addEventListener('click',()=>{
+            container.classList.add("right-panel-active");
+        });
+
+        signInButton.addEventListener('click',()=>{
+            container.classList.remove("right-panel-active");
+        });
+</script>
+
+{% endblock site-content %}
